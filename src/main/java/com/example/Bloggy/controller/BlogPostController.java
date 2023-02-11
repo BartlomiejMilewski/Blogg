@@ -7,15 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(path="/bloggy")
+@RequestMapping(path = "/bloggy")
 
 public class BlogPostController {
     @Autowired
     private BlogPostRepository blogPostRepository;
 
-    @PostMapping(path="/add")
-    public @ResponseBody String addNewPost (@RequestParam String author, @RequestParam String tags,
-                                            @RequestParam String title, @RequestParam String content){
+    @PostMapping(path = "/add")
+    public @ResponseBody String addNewPost(@RequestParam String author, @RequestParam String tags,
+                                           @RequestParam String title, @RequestParam String content) {
 
         BlogPost post = new BlogPost();
         post.setAuthor(author);
@@ -26,9 +26,9 @@ public class BlogPostController {
         blogPostRepository.save(post);
         return "Saves";
     }
-    @GetMapping(path="/all")
+
+    @GetMapping(path = "/all")
     public @ResponseBody Iterable<BlogPost> getAllPosts() {
-        // This returns a JSON or XML with the users
         return blogPostRepository.findAll();
     }
 
