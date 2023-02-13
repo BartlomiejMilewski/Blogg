@@ -5,7 +5,7 @@ import com.example.Bloggy.repo.BlogPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin("http://localhost:4200/")
 @Controller
 @RequestMapping(path = "/bloggy")
 
@@ -26,7 +26,7 @@ public class BlogPostController {
         blogPostRepository.save(post);
         return "Saves";
     }
-
+    @CrossOrigin("http://localhost:4200/")
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<BlogPost> getAllPosts() {
         return blogPostRepository.findAll();
