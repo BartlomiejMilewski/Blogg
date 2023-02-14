@@ -18,7 +18,7 @@ public class BlogPostController {
     @Autowired
     private BlogPostRepository blogPostRepository;
 
-
+    @GetMapping(path = "/posts")
     public @ResponseBody Iterable<BlogPost> getAllPosts() {
         return blogPostRepository.findAll();
     }
