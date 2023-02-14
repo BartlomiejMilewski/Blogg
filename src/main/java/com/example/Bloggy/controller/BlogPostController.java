@@ -6,10 +6,6 @@ import com.example.Bloggy.repo.BlogPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping(path = "/bloggy")
 
@@ -17,7 +13,7 @@ public class BlogPostController {
     @Autowired
     private BlogPostRepository blogPostRepository;
 
-    @GetMapping(path = "/posts")
+
     public @ResponseBody Iterable<BlogPost> getAllPosts() {
         return blogPostRepository.findAll();
     }
