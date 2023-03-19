@@ -12,6 +12,15 @@ public class BlogPost {
     private String title;
     private String content;
 
+
+    public BlogPost(Integer id, String author, String tags, String title, String content) {
+        this.id = id;
+        this.author = author;
+        this.tags = tags;
+        this.title = title;
+        this.content = content;
+    }
+
     public Integer getId() {
         return id;
     }
