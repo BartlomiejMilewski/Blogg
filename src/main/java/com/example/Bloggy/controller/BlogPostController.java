@@ -37,26 +37,45 @@ public class BlogPostController {
         return new ResponseEntity<>(newPost, HttpStatus.CREATED);
     }
 
-    @GetMapping(path="/posts/{id}")
-    public ResponseEntity<BlogPost> getPostById(@PathVariable Integer id){
+    @GetMapping(path = "/posts/{id}")
+    public ResponseEntity<BlogPost> getPostById(@PathVariable Integer id) {
         BlogPost blogPost = postService.findPostById(id);
-        return new ResponseEntity<>(blogPost, HttpStatus.OK);
+        if(blogPost == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return new ResponseEntity<>(blogPost, HttpStatus.OK);
+        }
     }
-    @PutMapping(path="/posts/{id}")
+
+    @PutMapping(path = "/posts/{id}")
     public ResponseEntity<BlogPost> updatePost(@PathVariable Integer id, @RequestBody BlogPost blogPostDetails) {
         BlogPost blogPost = postService.findPostById(id);
 
-        blogPost.setAuthor(blogPostDetails.getAuthor());
-        blogPost.setTags(blogPostDetails.getTags());
-        blogPost.setTitle(blogPostDetails.getTitle());
-        blogPost.setContent(blogPostDetails.getContent());
+        if (blogPost == null) {
+            return ResponseEntity.notFound().build();
+//        } else if (blogPost != postService.findPostById(1)) {
+//            return ResponseEntity.notFound().build();
+        } else {
 
-        BlogPost updatedPost = postService.updatePost(blogPost);
-        return new ResponseEntity<>(updatedPost, HttpStatus.OK);
+            blogPost.setAuthor(blogPostDetails.getAuthor());
+            blogPost.setTags(blogPostDetails.getTags());
+            blogPost.setTitle(blogPostDetails.getTitle());
+            blogPost.setContent(blogPostDetails.getContent());
+
+            BlogPost updatedPost = postService.updatePost(blogPost);
+            return new ResponseEntity<>(updatedPost, HttpStatus.OK);
+        }
     }
-    @DeleteMapping(path ="/posts/{id}")
+
+    @DeleteMapping(path = "/posts/{id}")
     public ResponseEntity<BlogPost> deletePostById(@PathVariable Integer id) {
-        postService.deletePost(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        BlogPost post = postService.findPostById(id);
+        if (post == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            postService.deletePost(id);
+//            return ResponseEntity.noContent().build();
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 }
