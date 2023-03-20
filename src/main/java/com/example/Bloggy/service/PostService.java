@@ -5,6 +5,7 @@ import com.example.Bloggy.model.BlogPost;
 import com.example.Bloggy.repo.BlogPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class PostService {
     public PostService(BlogPostRepository blogPostRepository) {
         this.blogPostRepository = blogPostRepository;
     }
-
+    @ResponseBody
     public BlogPost addPost(BlogPost blogPost) {
         return blogPostRepository.save(blogPost);
     }

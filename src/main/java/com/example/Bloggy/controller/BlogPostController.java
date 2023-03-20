@@ -31,7 +31,7 @@ public class BlogPostController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/posts")
+    @PostMapping(path = "/posts", produces = "application/json")
     public ResponseEntity<BlogPost> addPost(@RequestBody BlogPost blogPost) {
         BlogPost newPost = postService.addPost(blogPost);
         return new ResponseEntity<>(newPost, HttpStatus.CREATED);

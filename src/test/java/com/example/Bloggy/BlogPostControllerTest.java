@@ -119,7 +119,7 @@ public class BlogPostControllerTest {
 
 
     @Test
-    @DisplayName("PUT /posts/{id} - Updated")
+    @DisplayName("DELETE /posts/{id} - Deleted")
     void testDeleteBlogPost() throws Exception {
         // Setup mocked product
         BlogPost mockPosts = new BlogPost(1, "Test Author", "Test tags", "Test title", "Test content");
