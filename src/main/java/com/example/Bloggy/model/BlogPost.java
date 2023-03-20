@@ -13,6 +13,16 @@ public class BlogPost {
     private String content;
 
 
+    public BlogPost() {
+    }
+
+    public BlogPost(String author, String tags, String title, String content) {
+        this.author = author;
+        this.tags = tags;
+        this.title = title;
+        this.content = content;
+    }
+
     public BlogPost(Integer id, String author, String tags, String title, String content) {
         this.id = id;
         this.author = author;
