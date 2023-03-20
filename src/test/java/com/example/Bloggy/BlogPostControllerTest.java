@@ -109,21 +109,21 @@ public class BlogPostControllerTest {
     void testUpdateBlogPost() throws Exception {
         // Setup mocked product
         BlogPost mockPosts = new BlogPost(1, "Test Author", "Test tags", "Test title", "Test content");
-        BlogPost updatedPost = new BlogPost("Test Author", "Test tags", "Test title", "Test content");
+        BlogPost updatedPost = new BlogPost("Test Author2", "Test tags", "Test title", "Test content");
         // Setup mocked service
         doReturn(mockPosts).when(service).findPostById(1);
         doReturn(mockPosts).when(service).updatePost(any(BlogPost.class));
         //Execute update request
         mockMvc.perform(put("/bloggy/posts/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"author\":\"Test Author\",\"tags\":\"Test tags\",\"title\":\"Test title\",\"content\":\"Test content\"}")
+                        .content("{\"author\":\"Test Author2\",\"tags\":\"Test tags\",\"title\":\"Test title\",\"content\":\"Test content\"}")
 
         )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.author", is("Test Author")))
+                .andExpect(jsonPath("$.author", is("Test Author2")))
                 .andExpect(jsonPath("$.tags", is("Test tags")))
                 .andExpect(jsonPath("$.title", is("Test title")))
                 .andExpect(jsonPath("$.content", is("Test content")));
