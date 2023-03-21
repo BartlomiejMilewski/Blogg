@@ -27,6 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Optional;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
@@ -65,6 +67,19 @@ public class BlogPostControllerTest {
 
 
     @Test
+    @DisplayName("GET /posts/1 - Not found")
+    void testGetBlogPostByIdShouldReturnNotFoundIfNoPostFound() throws Exception {
+        //Setup mocked service
+        doReturn(null).when(service).findPostById(1);
+        //Execute GET request
+        mockMvc.perform(get("/bloggy/posts/{id}", 1))
+                .andExpect(status().isNotFound());
+    }
+
+
+
+
+    @Test
     @DisplayName("POST /posts - Created")
     void testPostBlogPost() throws Exception {
         // Setup mocked product
@@ -94,21 +109,21 @@ public class BlogPostControllerTest {
     void testUpdateBlogPost() throws Exception {
         // Setup mocked product
         BlogPost mockPosts = new BlogPost(1, "Test Author", "Test tags", "Test title", "Test content");
-        BlogPost updatedPost = new BlogPost("Test Author", "Test tags", "Test title", "Test content");
+        BlogPost updatedPost = new BlogPost("Test Author2", "Test tags", "Test title", "Test content");
         // Setup mocked service
         doReturn(mockPosts).when(service).findPostById(1);
         doReturn(mockPosts).when(service).updatePost(any(BlogPost.class));
         //Execute update request
         mockMvc.perform(put("/bloggy/posts/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"author\":\"Test Author\",\"tags\":\"Test tags\",\"title\":\"Test title\",\"content\":\"Test content\"}")
+                        .content("{\"author\":\"Test Author2\",\"tags\":\"Test tags\",\"title\":\"Test title\",\"content\":\"Test content\"}")
 
         )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.author", is("Test Author")))
+                .andExpect(jsonPath("$.author", is("Test Author2")))
                 .andExpect(jsonPath("$.tags", is("Test tags")))
                 .andExpect(jsonPath("$.title", is("Test title")))
                 .andExpect(jsonPath("$.content", is("Test content")));
@@ -116,6 +131,21 @@ public class BlogPostControllerTest {
 
     }
 
+    @Test
+    @DisplayName("PUT /posts/{id} - Can not update, post not found")
+    void testUpdateBlogPostByIdShouldReturnNotFoundIfNoPostFound() throws Exception {
+        BlogPost mockPosts = new BlogPost(1, "Test Author", "Test tags", "Test title", "Test content");
+        BlogPost updatedPost = new BlogPost("Test Author", "Test tags", "Test title", "Test content");
+
+        doReturn(null).when(service).findPostById(1);
+        doReturn(null).when(service).updatePost(any(BlogPost.class));
+
+        mockMvc.perform(put("/bloggy/posts/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"author\":\"Test Author\",\"tags\":\"Test tags\",\"title\":\"Test title\",\"content\":\"Test content\"}"))
+
+                .andExpect(status().isNotFound());
+    }
 
 
     @Test
@@ -130,6 +160,16 @@ public class BlogPostControllerTest {
         mockMvc.perform(delete("/bloggy/posts/{id}", 1))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    @DisplayName("DELETE /posts/{id} - Not Found")
+    void testDeleteBlogPostByIdShouldReturnNotFoundIfNoPostFound() throws Exception {
+        //Setup mocked service
+        doReturn(null).when(service).findPostById(1);
+        //Execute delete request
+        mockMvc.perform(delete("/bloggy/posts/{id}", 1))
+                .andExpect(status().isNotFound());
     }
 
 
