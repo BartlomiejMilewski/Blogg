@@ -68,7 +68,7 @@ public class BlogPostControllerTest {
 
     @Test
     @DisplayName("GET /posts/1 - Not found")
-    void testGetBlogPostByIdNotFound() throws Exception {
+    void testGetBlogPostByIdShouldReturnNotFoundIfNoPostFound() throws Exception {
         //Setup mocked service
         doReturn(null).when(service).findPostById(1);
         //Execute GET request
@@ -133,7 +133,7 @@ public class BlogPostControllerTest {
 
     @Test
     @DisplayName("PUT /posts/{id} - Can not update, post not found")
-    void testUpdateBlogPostIfPostNotFound() throws Exception {
+    void testUpdateBlogPostByIdShouldReturnNotFoundIfNoPostFound() throws Exception {
         BlogPost mockPosts = new BlogPost(1, "Test Author", "Test tags", "Test title", "Test content");
         BlogPost updatedPost = new BlogPost("Test Author", "Test tags", "Test title", "Test content");
 
@@ -146,28 +146,6 @@ public class BlogPostControllerTest {
 
                 .andExpect(status().isNotFound());
     }
-
-
-//    @Test
-//    @DisplayName("PUT /posts/{id} - Can not update, post ID does not match")
-//    void testUpdateBlogPostIfPostIdNotMatched() throws Exception {
-//        BlogPost mockPosts = new BlogPost(1, "Test Author", "Test tags", "Test title", "Test content");
-//        BlogPost updatedPost = new BlogPost("Test Author", "Test tags", "Test title", "Test content");
-//
-//        doReturn(null).when(service).findPostById(1);
-//        doReturn(null).when(service).updatePost(any(BlogPost.class));
-//
-//        mockMvc.perform(put("/bloggy/posts/{id}", 1)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content("{\"author\":\"Test Author\",\"tags\":\"Test tags\",\"title\":\"Test title\",\"content\":\"Test content\"}"))
-//
-//                .andExpect(status().isConflict());
-//    }
-
-
-
-
-
 
 
     @Test
@@ -186,7 +164,7 @@ public class BlogPostControllerTest {
 
     @Test
     @DisplayName("DELETE /posts/{id} - Not Found")
-    void testDeleteBlogPostNotFound() throws Exception {
+    void testDeleteBlogPostByIdShouldReturnNotFoundIfNoPostFound() throws Exception {
         //Setup mocked service
         doReturn(null).when(service).findPostById(1);
         //Execute delete request

@@ -53,8 +53,6 @@ public class BlogPostController {
 
         if (blogPost == null) {
             return ResponseEntity.notFound().build();
-//        } else if (blogPost != postService.findPostById(1)) {
-//            return ResponseEntity.notFound().build();
         } else {
 
             blogPost.setAuthor(blogPostDetails.getAuthor());
